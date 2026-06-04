@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordena la Historia - Los Gagones</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --negro: #0a0a0a;
+    --dorado: #c9a84c;
+    --dorado-claro: #e8c97a;
+    --rojo: #8b1a1a;
+    --gris: #1a1a1a;
+    --gris-medio: #2d2d2d;
+    --blanco: #f0e8d5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--negro);
+    font-family: 'Crimson Text', serif;
+    color: var(--blanco);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 80% 20%, rgba(139,26,26,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 50%);
+  }
+
+  .contenedor {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .cabecera {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .cabecera::before {
+    content: '📜';
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: flotar 3s ease-in-out infinite;
+  }
+
+  @keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .cabecera h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--dorado);
+    letter-spacing: 2px;
+    line-height: 1.3;
+    text-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  .cabecera p {
+    color: #888;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  .instrucciones {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    color: #aaa;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .instrucciones strong { color: var(--dorado); }
+
+  .linea-decorativa {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .linea-decorativa::before,
+  .linea-decorativa::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+  }
+
+  .linea-decorativa span { color: var(--dorado); }
+
+  .estado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+
+  .intentos { color: #888; }
+  .intentos span { color: var(--dorado); font-family: 'Cinzel', serif; font-weight: 700; }
+
+  .btn-verificar {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, var(--rojo), #5a0e0e);
+    border: 1px solid var(--dorado);
+    border-radius: 8px;
+    color: var(--dorado);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-verificar:hover {
+    background: linear-gradient(135deg, #a01e1e, var(--rojo));
+    transform: translateY(-2px);
+  }
+
+  .lista-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+
+  .evento {
+    background: var(--gris);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 15px 18px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.2s ease;
+    user-select: none;
+    position: relative;
+  }
+
+  .evento:active { cursor: grabbing; }
+
+  .evento.arrastrando {
+    opacity: 0.4;
+    border-color: var(--dorado);
+    transform: scale(0.98);
+  }
+
+  .evento.sobre {
+    border-color: var(--dorado);
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+
+  .evento.correcto {
+    border-color: #27ae60;
+    background: rgba(39,174,96,0.12);
+    cursor: default;
+  }
+
+  .evento.incorrecto {
+    border-color: #c0392b;
+    background: rgba(192,57,43,0.12);
+    animation: vibrar 0.3s ease;
+  }
+
+  @keyframes vibrar {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .numero-orden {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--dorado);
+    min-width: 35px;
+    text-align: center;
+    opacity: 0.5;
+  }
+
+  .evento.correcto .numero-orden { opacity: 1; color: #27ae60; }
+
+  .icono-drag {
+    color: #555;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .texto-evento {
+    font-size: 1rem;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .icono-estado {
+    font-size: 1.2rem;
+    min-width: 25px;
+    text-align: center;
+  }
+
+  .feedback-global {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: none;
+    animation: aparecerFeedback 0.4s ease;
+  }
+
+  @keyframes aparecerFeedback {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback-global.exito {
+    background: rgba(39,174,96,0.15);
+    border: 1px solid #27ae60;
+    display: block;
+  }
+
+  .feedback-global.error {
+    background: rgba(192,57,43,0.15);
+    border: 1px solid #c0392b;
+    display: block;
+  }
+
+  .feedback-global h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .feedback-global.exito h3 { color: #27ae60; }
+  .feedback-global.error h3 { color: #c0392b; }
+
+  .feedback-global p { color: #aaa; font-style: italic; font-size: 0.95rem; }
+
+  .botones-control {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .btn-control {
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-reiniciar {
+    background: transparent;
+    border: 2px solid var(--dorado);
+    color: var(--dorado);
+  }
+
+  .btn-reiniciar:hover {
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-2px);
+  }
+
+  .pista {
+    background: rgba(201,168,76,0.05);
+    border: 1px dashed rgba(201,168,76,0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777;
+    text-align: center;
+    display: none;
+  }
+
+  .pista.visible { display: block; }
+  .pista strong { color: var(--dorado); }
+
+  .badge-intentos {
+    display: inline-block;
+    background: rgba(139,26,26,0.3);
+    border: 1px solid rgba(139,26,26,0.5);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    color: #c87c7c;
+  }
+</style>
+</head>
+<body>
+<div class="contenedor">
+
+  <div class="cabecera">
+    <h1>Ordena la Historia<br>Los Gagones</h1>
+    <p>Reconstruye los eventos en el orden correcto</p>
+  </div>
+
+  <div class="instrucciones">
+    <strong>¿Cómo jugar?</strong> Arrastra y suelta los eventos para ordenarlos cronológicamente según la leyenda.
+    Cuando estés listo, presiona <strong>Verificar</strong>.
+  </div>
+
+  <div class="linea-decorativa"><span>✦</span></div>
+
+  <div class="estado">
+    <div class="intentos">Intentos: <span id="num-intentos">0</span></div>
+    <button class="btn-verificar" onclick="verificar()">Verificar Orden ›</button>
+  </div>
+
+  <div class="lista-eventos" id="lista"></div>
+
+  <div class="feedback-global" id="feedback-global">
+    <h3 id="titulo-feedback"></h3>
+    <p id="texto-feedback"></p>
+    <div class="botones-control">
+      <button class="btn-control btn-reiniciar" onclick="reiniciar()">⟳ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="pista" id="pista">
+    💡 <strong>Pista:</strong> Recuerda que la historia comienza con la advertencia del pueblo, luego los jóvenes desafían la costumbre, y finalmente llegan las consecuencias.
+  </div>
+
+</div>
+
+<script>
+const eventosOriginales = [
+  { id: 1, texto: "En San Jacinto las noches de luna llena tienen un aire misterioso. Los vecinos advierten a los jóvenes: 'Si quieres vivir con alguien, primero pasa por la iglesia'.", orden: 1 },
+  { id: 2, texto: "La gente del pueblo habla de los Gagones: criaturas parecidas a los gatos que salen después del toque de campanas de las nueve.", orden: 2 },
+  { id: 3, texto: "Josué y Alisson, desafiando las advertencias de sus familias, deciden mudarse juntos sin casarse. Alquilan una casita en el sitio 'Las Antenas'.", orden: 3 },
+  { id: 4, texto: "Durante varias semanas la pareja vive feliz. Una noche deciden pasear cerca de la roca de la Virgen de la Merced.", orden: 4 },
+  { id: 5, texto: "Josué y Alisson escuchan sonidos extraños y un lamento largo y agudo. Los Gagones aparecen y atacan a Josué.", orden: 5 },
+  { id: 6, texto: "Josué siente un dolor terrible en la rodilla. Alisson intenta ayudarlo y también cae al suelo entre gritos.", orden: 6 },
+  { id: 7, texto: "Al día siguiente los vecinos encuentran a los jóvenes pálidos y sin poder caminar. La noticia se esparce: '¡Los gagones los visitaron!'", orden: 7 },
+  { id: 8, texto: "La historia se convierte en advertencia. Las campanas de la capilla suenan con más fuerza en cada matrimonio para espantar a los espíritus.", orden: 8 }
+];
+
+let eventos = [];
+let intentos = 0;
+let arrastrandoId = null;
+let completado = false;
+
+function mezclar(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function init() {
+  eventos = mezclar(eventosOriginales);
+  renderizar();
+}
+
+function renderizar() {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '';
+
+  eventos.forEach((ev, idx) => {
+    const div = document.createElement('div');
+    div.className = 'evento';
+    div.draggable = !completado;
+    div.dataset.id = ev.id;
+    div.innerHTML = `
+      <span class="icono-drag">⠿⠿</span>
+      <span class="numero-orden">${idx + 1}</span>
+      <span class="texto-evento">${ev.texto}</span>
+      <span class="icono-estado"></span>
+    `;
+
+    div.addEventListener('dragstart', dragStart);
+    div.addEventListener('dragover', dragOver);
+    div.addEventListener('drop', drop);
+    div.addEventListener('dragend', dragEnd);
+    div.addEventListener('dragleave', dragLeave);
+
+    lista.appendChild(div);
+  });
+}
+
+function dragStart(e) {
+  arrastrandoId = parseInt(e.currentTarget.dataset.id);
+  setTimeout(() => e.currentTarget.classList.add('arrastrando'), 0);
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('sobre');
+}
+
+function dragLeave(e) {
+  e.currentTarget.classList.remove('sobre');
+}
+
+function drop(e) {
+  e.preventDefault();
+  const targetId = parseInt(e.currentTarget.dataset.id);
+  e.currentTarget.classList.remove('sobre');
+
+  if (arrastrandoId === targetId) return;
+
+  const fromIdx = eventos.findIndex(ev => ev.id === arrastrandoId);
+  const toIdx = eventos.findIndex(ev => ev.id === targetId);
+
+  const temp = eventos[fromIdx];
+  eventos[fromIdx] = eventos[toIdx];
+  eventos[toIdx] = temp;
+
+  renderizar();
+}
+
+function dragEnd(e) {
+  e.currentTarget.classList.remove('arrastrando');
+  document.querySelectorAll('.evento').forEach(el => el.classList.remove('sobre'));
+}
+
+function verificar() {
+  if (completado) return;
+  intentos++;
+  document.getElementById('num-intentos').textContent = intentos;
+
+  let todoCorrecto = true;
+  const items = document.querySelectorAll('.evento');
+
+  items.forEach((item, idx) => {
+    const id = parseInt(item.dataset.id);
+    const ev = eventos.find(e => e.id === id);
+    const icono = item.querySelector('.icono-estado');
+
+    item.classList.remove('correcto', 'incorrecto');
+
+    if (ev.orden === idx + 1) {
+      item.classList.add('correcto');
+      icono.textContent = '✓';
+      item.draggable = false;
+    } else {
+      item.classList.add('incorrecto');
+      icono.textContent = '✗';
+      todoCorrecto = false;
+    }
+  });
+
+  const feedback = document.getElementById('feedback-global');
+
+  if (todoCorrecto) {
+    completado = true;
+    feedback.className = 'feedback-global exito';
+    document.getElementById('titulo-feedback').textContent = '🏆 ¡Perfecto! Historia Ordenada';
+    document.getElementById('texto-feedback').textContent = `Ordenaste correctamente los 8 eventos de la leyenda en ${intentos} intento${intentos > 1 ? 's' : ''}. ¡Conoces muy bien la historia de los Gagones!`;
+    document.getElementById('pista').classList.remove('visible');
+  } else {
+    feedback.className = 'feedback-global error';
+    const correctos = document.querySelectorAll('.evento.correcto').length;
+    document.getElementById('titulo-feedback').textContent = `${correctos} de 8 en posición correcta`;
+    document.getElementById('texto-feedback').textContent = 'Algunos eventos están fuera de orden. Los marcados en verde están bien. ¡Sigue intentándolo!';
+
+    if (intentos >= 2) {
+      document.getElementById('pista').classList.add('visible');
+    }
+  }
+}
+
+function reiniciar() {
+  intentos = 0;
+  completado = false;
+  document.getElementById('num-intentos').textContent = '0';
+  document.getElementById('feedback-global').className = 'feedback-global';
+  document.getElementById('pista').classList.remove('visible');
+  init();
+}
+
+init();
+</script>
+</body>
+</html>

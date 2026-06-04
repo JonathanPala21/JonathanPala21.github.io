@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#7fda18" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Cuentos, Costumbres, Tradiciones y Saberes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<script>
+const paginas = [
+  { texto: 'Inicio - Bienvenida', icono: 'fa-home', hash: '#inicio', palabras: ['inicio', 'bienvenido', 'bienvenida', 'principal', 'home'] },
+  { texto: 'Piñas - Ubicación', icono: 'fa-map-marker-alt', hash: '#inicio', palabras: ['piñas', 'canton', 'ubicacion', 'el oro', 'orquidea', 'andes', 'ecuador', 'provincia'] },
+  { texto: 'Piñas - Simbología', icono: 'fa-shield-alt', hash: '#inicio', palabras: ['simbologia', 'escudo', 'bandera', 'simbolo', 'plus ultra', 'aguila'] },
+  { texto: 'Piñas - Himno', icono: 'fa-music', hash: '#inicio', palabras: ['himno', 'himno piñas', 'cancion', 'musica', 'audio'] },
+  { texto: 'Piñas - Turismo', icono: 'fa-mountain', hash: '#inicio', palabras: ['turismo', 'virgen merced', 'patagrande', 'buenaventura', 'chorro viringo', 'bateas', 'florida', 'laguna azul', 'reserva', 'balneario'] },
+  { texto: 'Piñas - Gastronomía', icono: 'fa-utensils', hash: '#inicio', palabras: ['gastronomia', 'comida', 'tigrillo', 'molloco', 'platano', 'cocina', 'platos', 'tipico'] },
+  { texto: 'Piñas - Mapa', icono: 'fa-map', hash: '#inicio', palabras: ['mapa', 'google maps', 'ubicacion geografica', 'geografia'] },
+  { texto: 'Nuestra Comunidad', icono: 'fa-school', hash: '#unidad-educativa', palabras: ['comunidad', 'colegio', 'unidad educativa', '8 de noviembre', 'bachillerato', 'institucion'] },
+  { texto: 'Colegio - Misión', icono: 'fa-bullseye', hash: '#unidad-educativa', palabras: ['mision', 'objetivo', 'meta', 'emprendedores', 'criticos'] },
+  { texto: 'Colegio - Visión', icono: 'fa-eye', hash: '#unidad-educativa', palabras: ['vision', 'futuro', 'autonomia', 'solidaridad', 'intercultural'] },
+  { texto: 'Colegio - Simbología', icono: 'fa-star', hash: '#unidad-educativa', palabras: ['simbolos colegio', 'escudo colegio', 'bandera colegio', 'faro ciencia virtud'] },
+  { texto: 'Colegio - Himno', icono: 'fa-music', hash: '#unidad-educativa', palabras: ['himno colegio', 'himno noviembre', 'gerardo arias', 'leovigildo loayza'] },
+  { texto: 'Colegio - Oferta Educativa', icono: 'fa-graduation-cap', hash: '#unidad-educativa', palabras: ['oferta educativa', 'especialidades', 'tecnico', 'ciencias', 'agropecuaria', 'metalica', 'basica', 'bachillerato tecnico'] },
+  { texto: 'Biblioteca de Cuentos', icono: 'fa-book-open', hash: '#biblioteca', palabras: ['biblioteca', 'cuentos', 'libros', 'historias', 'leyendas', 'relatos', 'tradiciones'] },
+  { texto: 'Cuento 1 - Los Gagones', icono: 'fa-book', hash: '#cuento-principal', palabras: ['gagones', 'guardianes', 'matrimonio', 'josue', 'alisson', 'san jacinto', 'gatos', 'sacramento', 'espiritus', 'iglesia', 'luna llena', 'rotula', 'casarse'] },
+  { texto: 'Cuento 1 - Video', icono: 'fa-video', hash: '#cuento-principal', palabras: ['video gagones', 'video cuento principal', 'videocuento'] },
+  { texto: 'Cuento 1 - Libro Digital', icono: 'fa-file-alt', hash: '#cuento-principal', palabras: ['libro gagones', 'calameo gagones', 'libro digital gagones'] },
+  { texto: 'Cuento 2 - Virgen del Rosario', icono: 'fa-church', hash: '#cuento1', palabras: ['virgen rosario', 'tumianuma', 'piscobamba', 'guacarrumba', 'capilla', 'fe', 'espiritu', 'hipolito', 'agosto', 'milagro', 'imagen', 'rio'] },
+  { texto: 'Cuento 2 - Video', icono: 'fa-video', hash: '#cuento1', palabras: ['video virgen', 'video rosario', 'video cuento 2'] },
+  { texto: 'Cuento 2 - Libro Digital', icono: 'fa-file-alt', hash: '#cuento1', palabras: ['libro virgen', 'libro rosario', 'calameo virgen'] },
+  { texto: 'Cuento 3 - El Caballero y las Espuelas', icono: 'fa-horse', hash: '#cuento2', palabras: ['caballero', 'espuelas', 'oro', 'feria', 'loja', 'diablo', 'salon', 'piuranas', 'hacienda', 'sirvienta', 'hundirse', 'vanidad', 'baile', 'negro'] },
+  { texto: 'Cuento 3 - Video', icono: 'fa-video', hash: '#cuento2', palabras: ['video caballero', 'video espuelas', 'video cuento 3'] },
+  { texto: 'Cuento 3 - Libro Digital', icono: 'fa-file-alt', hash: '#cuento2', palabras: ['libro caballero', 'libro espuelas', 'heyzine caballero'] },
+  { texto: 'Cuento 4 - El Camino de los Ahorcados', icono: 'fa-skull', hash: '#cuento3', palabras: ['ahorcados', 'camino', 'ana maria', 'luis felipe', 'lepra', 'hospital', 'colina', 'aislado', 'eucaliptos', 'cabuya', 'soga', 'penando', 'almas', 'luz marina', 'tunel'] },
+  { texto: 'Cuento 4 - Video', icono: 'fa-video', hash: '#cuento3', palabras: ['video ahorcados', 'video camino', 'video cuento 4'] },
+  { texto: 'Cuento 4 - Libro Digital', icono: 'fa-file-alt', hash: '#cuento3', palabras: ['libro ahorcados', 'libro camino', 'heyzine ahorcados'] },
+  { texto: 'Juegos', icono: 'fa-gamepad', hash: '#juegos', palabras: ['juegos', 'jugar', 'interactivo', 'actividad'] },
+  { texto: 'Juego 1 - Quiz Los Gagones', icono: 'fa-question-circle', hash: '#juegos', palabras: ['quiz', 'preguntas', 'quiz gagones', 'juego 1'] },
+  { texto: 'Juego 2 - Ordena la Historia', icono: 'fa-sort', hash: '#juegos', palabras: ['ordenar', 'orden', 'historia', 'juego 2', 'eventos'] },
+  { texto: 'Juego 3 - Memoria Virgen', icono: 'fa-brain', hash: '#juegos', palabras: ['memoria', 'parejas', 'juego 3', 'memoria virgen'] },
+  { texto: 'Juego 4 - El Caballero', icono: 'fa-chess-knight', hash: '#juegos', palabras: ['juego caballero', 'juego 4', 'salon'] },
+  { texto: 'Juego 5 - Camino Ahorcados', icono: 'fa-route', hash: '#juegos', palabras: ['juego ahorcados', 'juego 5', 'colina'] },
+];
+
+function buscar(valor) {
+  const contenedor = document.getElementById('resultados-busqueda');
+  if (!valor.trim()) { contenedor.style.display = 'none'; return; }
+
+  const texto = valor.toLowerCase();
+  const resultados = paginas.filter(p =>
+    p.texto.toLowerCase().includes(texto) ||
+    p.palabras.some(pal => pal.includes(texto))
+  );
+
+  if (resultados.length === 0) {
+    contenedor.innerHTML = '<div class="resultado-item"><i class="fas fa-times"></i> Sin resultados</div>';
+  } else {
+    contenedor.innerHTML = resultados.map(r => `
+      <div class="resultado-item" onclick="irA('${r.hash}')">
+        <i class="fas ${r.icono}"></i> ${r.texto}
+      </div>
+    `).join('');
+  }
+  contenedor.style.display = 'block';
+}
+
+function irA(hash) {
+  const bv = document.getElementById('pantalla-bienvenida');
+  if (bv && bv.style.display !== 'none') bv.style.display = 'none';
+  cerrarBusqueda();
+  document.getElementById('input-buscar').value = '';
+
+  if (window.location.hash === hash) {
+    window.location.hash = '';
+    setTimeout(() => { window.location.hash = hash; }, 50);
+  } else {
+    window.location.hash = hash;
+  }
+
+  if (hash === '#juegos') {
+    setTimeout(() => {
+      document.getElementById('menu-juegos').style.display = 'grid';
+      document.getElementById('zona-juego').style.display = 'none';
+    }, 100);
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function cerrarBusqueda() {
+  document.getElementById('resultados-busqueda').style.display = 'none';
+}
+</script>
+
+<body>
+
+
+
+  
+  <!-- Barra superior -->
+  <div class="barra-superior">
+    <div class="mensaje-izquierda">
+      Bienvenidos al apartado para Cuentos, costumbres, tradiciones y saberes para la interculturalidad en instituciones educativas.
+    </div>
+    <div class="contacto-derecha">
+      📧 jonathan.paladines@unl.edu.ec | 📲 0979635880
+    </div>
+  </div>
+
+  <!-- Encabezado con logos -->
+  <header class="header-info">
+    <div class="contenedor-logos">
+
+      <div class="bloque-izquierdo-agrupado">
+        <img src="imagenes/logo unl.png" alt="Logo Universidad Nacional de Loja" class="logo-izquierdo" />
+        <div class="texto-unl">
+          Universidad<br>Nacional<br>de Loja
+        </div>
+      </div>
+
+      <div class="texto-informatica">
+        <h1>CUENTOS DE<br>NUESTRA COMUNIDAD</h1>
+        <h2>CARRERA DE PEDAGOGÍA DE LAS CIENCIAS<br>EXPERIMENTALES INFORMÁTICA</h2>
+      </div>
+
+      <div class="bloque-derecho-agrupado">
+        <div class="texto-colegio">
+          Unidad<br>Educativa<br>"8 de noviembre"
+        </div>
+        <img src="imagenes/escudo.png" alt="Escudo Unidad Educativa 8 de noviembre" class="logo-derecho" />
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Menú de navegación -->
+  <nav class="menu">
+    <a href="#inicio"><i class="fas fa-home"></i>Inicio</a>
+    <a href="#unidad-educativa"><i class="fas fa-school"></i>Nuestra Comunidad</a>
+    <a href="#biblioteca"><i class="fas fa-book-open"></i>Biblioteca</a>
+    <a href="#juegos"><i class="fas fa-gamepad"></i>Juegos</a>
+
+    <div class="buscador-menu">
+      <i class="fas fa-search"></i>
+      <input type="text" id="input-buscar" placeholder="Buscar..."
+        oninput="buscar(this.value)"
+        onblur="setTimeout(()=>cerrarBusqueda(),200)"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false">
+      <div class="resultados-busqueda" id="resultados-busqueda"></div>
+    </div>
+  </nav>
+
+  <!-- Contenedor de Secciones -->
+  <div class="content-sections">
+
+    <!-- ==================== SECCIÓN INICIO ==================== -->
+    <section id="inicio" class="seccion">
+
+
+<!-- BIENVENIDA ANIMADA (se oculta al hacer clic en Inicio) -->
+<!-- BIENVENIDA ANIMADA ESPECTACULAR -->
+<div id="pantalla-bienvenida">
+
+  <!-- Partículas de fondo -->
+  <canvas id="canvas-particulas"></canvas>
+
+  <!-- Contenido -->
+  <div class="bv-contenido">
+
+    <div class="bv-linea-top"></div>
+
+<div class="bv-badge">🌿 Piñas, El Oro — Ecuador</div>
+<img src="imagenes/bienvenidos.png" alt="Bienvenidos" style="width:clamp(130px,25%,220px); height:auto; border-radius:12px; margin:15px auto 30px auto; display:block; opacity:0; animation:subir 0.7s ease 0.1s forwards;">
+
+    <!-- Tarjetas de secciones -->
+<div class="bv-cards">
+  <div class="bv-card" onclick="verInicio()">🗺️ Piñas</div>
+  <div class="bv-card" onclick="irA('#biblioteca')">📚 Cuentos</div>
+  <div class="bv-card" onclick="irA('#unidad-educativa')">🏫 Comunidad</div>
+  <div class="bv-card" onclick="irA('#juegos')">🎮 Juegos</div>
+</div>
+
+    <p class="bv-descripcion" style="animation-delay:1.3s">
+      Haz clic en <strong>Inicio</strong> desde el menú para explorar el cantón Piñas,<br>
+      o navega directamente desde las opciones del menú superior.
+    </p>
+
+    <button class="bv-btn" onclick="verInicio()" style="animation-delay:1.5s">
+      <i class="fas fa-compass"></i> Explorar la página web
+    </button>
+
+    <div class="bv-linea-bottom"></div>
+  </div>
+
+</div>
+
+<!-- CONTENIDO REAL DE INICIO (oculto al principio) -->
+<div id="contenido-inicio" style="display:none;">
+
+
+      <div class="primeraparte">
+        <h1>Bienvenido al cantón Piñas</h1>
+        <p>Piñas, conocida como la "Orquídea de los Andes". Se distingue por su biodiversidad, con una gran variedad de orquídeas y paisajes montañosos que la convierten en un destino natural y cultural fascinante. Su geografía irregular, con quebradas y montañas, le da un encanto especial, mientras que su clima favorece la presencia de exuberante vegetación y fauna.</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Ubicación</h1>
+          <p>Piñas, también conocida como "La Orquídea de los Andes", es una ciudad ecuatoriana ubicada en la provincia de El Oro. Se encuentra en la parte alta de la provincia y es famosa por su biodiversidad y sus bosques nublados. Su clima templado y húmedo, con temperaturas entre los 16 y 32 °C, la hace ideal para el turismo ecológico.</p>
+        </div>
+        <img src="imagenes/imagen de piñas.jpg" alt="Imagen de Piñas" class="imagen-principal" />
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/simbologia.png" alt="Simbología de Piñas" class="imagen-principal" />
+        <div class="texto">
+          <h1>Simbología</h1>
+          <p>El escudo de Piñas tiene un diseño heráldico con un cuartel único de forma acorazonada y color dorado. En su parte superior, una antorcha encendida simboliza el espíritu patriótico de los piñasienses. En la cima del escudo, un águila con las alas desplegadas sostiene un lazo con el lema "Plus Ultra", que significa "más allá, siempre adelante".</p>
+        </div>
+      </div>
+
+      <div class="primeraparte">
+        <h1>Himno a Piñas</h1>
+        <p>El Himno a Piñas es "orgullo por la libertad y el progreso de la tierra natal". La letra celebra la autonomía alcanzada, el renacer de la ciudad bajo un nuevo día de esperanza, y exalta valores como el trabajo, la gloria y el amor filial hacia la patria común.</p>
+      </div>
+
+      <div class="audio-player">
+        <audio controls>
+          <source src="imagenes/himnopiñas.mp3" type="audio/mpeg">
+          Tu navegador no soporta audio HTML5.
+        </audio>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Turismo</h1>
+          <p>Piñas cuenta con diversos atractivos turísticos que reflejan su riqueza natural y cultural. Uno de los sitios más emblemáticos es la Roca de la Virgen de la Merced, un lugar de devoción y peregrinación. El Cerro Patagrande es otro punto destacado, desde su cima se puede apreciar una vista panorámica de Piñas y sus alrededores.</p>
+          <p>Además, Piñas ofrece atractivos como la Reserva Natural Buenaventura, y balnearios naturales como Chorro Viringo, Las Bateas, La Florida y Laguna Azul.</p>
+        </div>
+        <img src="imagenes/imagen de turismo.jpg" alt="Turismo en Piñas" class="imagen-principal" />
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/gastronomia.png" alt="Gastronomía de Piñas" class="imagen-principal" />
+        <div class="texto">
+          <h1>Gastronomía</h1>
+          <p>Piñas cuenta con una gastronomía exquisita y diversa, en la que se fusionan sabores autóctonos y recetas tradicionales que realzan la identidad cultural de la región. Entre los platos más emblemáticos se encuentra el tigrillo, preparado a base de plátano verde majado, huevo, queso y chicharrón. De igual forma, el molloco es otra propuesta tradicional que conquista a locales y visitantes.</p>
+        </div>
+      </div>
+
+      <div class="primeraparte">
+        <h1>Mapa - Google Maps</h1>
+        <p>Aquí se encuentra el mapa de Piñas, El Oro, para que puedas ubicarte geográficamente y conocer mejor los espacios que dan vida a esta leyenda tradicional.</p>
+      </div>
+
+      <div style="border-radius:15px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.123456789!2d-79.680000!3d-3.690000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9027d123456789ab%3A0xabcdef123456789!2sPi%C3%B1as%2C%20El%20Oro%2C%20Ecuador!5e0!3m2!1ses!2sec!4v1234567890"
+          width="100%" height="350" style="border:0; display:block;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECCIÓN UNIDAD EDUCATIVA ==================== -->
+    <section id="unidad-educativa" class="seccion">
+
+      <div class="primeraparte">
+        <h1>Conoce el Colegio de Bachillerato "8 de noviembre"</h1>
+        <p>El Colegio de Bachillerato 8 de Noviembre en Piñas, El Oro, es una institución educativa con más de 60 años de trayectoria, comprometida con la formación integral de la juventud.</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Misión</h1>
+          <p>El Colegio de Bachillerato "8 de Noviembre" es una Institución fiscal y laica, que tiene como meta formar jóvenes, emprendedores, críticos, investigadores y ávidos de conocimientos de amplia cultura humanística, científica y tecnológica, donde se privilegia el diálogo en democracia.</p>
+        </div>
+        <img src="imagenes/misioncolegio.png" alt="Misión del Colegio" class="imagen-principal" />
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/visioncolegio.png" alt="Visión del Colegio" class="imagen-principal" />
+        <div class="texto">
+          <h1>Visión</h1>
+          <p>Nos constituimos en una Institución donde se práctica la autonomía intelectual, en la que los conocimientos que reciben nuestros estudiantes puedan ayudarlos a lograr mejores estándares de vida priorizando la solidaridad, integridad y un alto nivel de respeto intercultural.</p>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Simbología</h1>
+          <p>Los Símbolos Institucionales del Colegio 8 de Noviembre se resumen en un escudo circular coronado por una estrella bicolor roja y blanca, con un libro abierto y pluma bajo el lema "Faro de Ciencia y Virtud". Su bandera consta de tres franjas horizontales (verde, blanca y roja) que simbolizan esperanza, paz y pasión por el conocimiento.</p>
+        </div>
+        <img src="imagenes/simboloscolegio.png" alt="Simbología del Colegio" class="imagen-principal" />
+      </div>
+
+      <div class="primeraparte">
+        <h1>Himno al Colegio</h1>
+        <p>El himno celebra el orgullo por Piñas y su Colegio "8 de Noviembre" como faro de ciencia, virtud y patriotismo.<br>Música: Gerardo Arias Arias — Letra: Leovigildo Loayza Loayza</p>
+      </div>
+
+      <div class="audio-player">
+        <audio controls>
+          <source src="imagenes/himno_colegio_8_noviembre.mp3" type="audio/mpeg">
+          Tu navegador no soporta audio HTML5.
+        </audio>
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/especialidades.png" alt="Especialidades del Colegio" class="imagen-principal" />
+        <div class="texto">
+          <h1>Oferta Educativa</h1>
+          <p>⚫ <strong>EDUCACIÓN GENERAL BÁSICA SUPERIOR:</strong> Organizada en áreas de Lengua y Literatura, Matemática, Ciencias Naturales, Ciencias Sociales, Lengua Extranjera, Educación Física y Educación Cultural y Artística.</p>
+          <p>⚫ <strong>BACHILLERATO EN CIENCIAS:</strong> Con asignaturas optativas en Problemas del Mundo Contemporáneo, Informática, Física Superior y Matemática Superior.</p>
+          <p>⚫ <strong>BACHILLERATO TÉCNICO:</strong> Agropecuaria y Construcción Metálica.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECCIÓN BIBLIOTECA ==================== -->
+    <section id="biblioteca" class="seccion">
+
+      <div class="primeraparte">
+        <h1>Biblioteca de Cuentos</h1>
+        <p>Explora los cuentos y selecciona el que más sea de tu agrado</p>
+      </div>
+
+      <div class="biblioteca-layout">
+
+        <div class="columna-principal">
+          <div class="tarjeta-cuento tarjeta-principal" style="flex-direction:column; height:100%;">
+            <div class="tarjeta-info">
+              <h2>Cuento 1: de la Comunidad</h2>
+              <h2>Los Gagones "Guardianes del matrimonio"</h2>
+              <p>Historia principal recopilada desde las voces y memorias de la comunidad</p>
+              <a href="#cuento-principal" class="btn-cuento">Ver cuento</a>
+            </div>
+            <video class="miniatura-cuento" controls playsinline>
+              <source src="imagenes/Videocuento0.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <div class="cuento-1">
+          <div class="tarjeta-cuento tarjeta-principal">
+            <div class="tarjeta-info">
+              <h2>Cuento 2</h2>
+              <h2>La Virgen del Rosario</h2>
+              <p>Relato sagrado custodiado por la fe y los milagros compartidos del pueblo.</p>
+              <a href="#cuento1" class="btn-cuento">Ver cuento</a>
+            </div>
+            <video class="miniatura-cuento" controls playsinline>
+              <source src="imagenes/Video1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <div class="cuento-2">
+          <div class="tarjeta-cuento tarjeta-principal">
+            <div class="tarjeta-info">
+              <h2>Cuento 3</h2>
+              <h2>El caballero y las espuelas de oro</h2>
+              <p>Leyenda señorial rescatada de los susurros nocturnos y el misticismo de los mayores.</p>
+              <a href="#cuento2" class="btn-cuento">Ver cuento</a>
+            </div>
+            <video class="miniatura-cuento" controls playsinline>
+              <source src="imagenes/Video2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <div class="cuento-3">
+          <div class="tarjeta-cuento tarjeta-principal">
+            <div class="tarjeta-info">
+              <h2>Cuento 4</h2>
+              <h2>El Camino de los Ahorcados</h2>
+              <p>Crónica sombría recuperada de los ecos del pasado y la memoria colectiva del lugar.</p>
+              <a href="#cuento3" class="btn-cuento">Ver cuento</a>
+            </div>
+            <video class="miniatura-cuento" controls playsinline>
+              <source src="imagenes/Video3.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CUENTO PRINCIPAL ==================== -->
+    <section id="cuento-principal" class="seccion">
+
+      <a href="#biblioteca" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver a Biblioteca</a>
+
+      <div class="primeraparte">
+        <h1>Cuento 1: Leyenda "Los Gagones" Guardianes del matrimonio</h1>
+        <p>La organización de la leyenda se dividirá en varios apartados fundamentales para la mejor comprensión de la misma:</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Video Leyenda</h1>
+          <p>Sumérgete en la magia de la leyenda a través de un formato audiovisual envolvente. Este video cuento combina narración, música y elementos visuales para ofrecer una experiencia rica en sonido e imagen, acercándote de forma más viva a nuestras raíces culturales de la ciudad de Piñas-El Oro-Ecuador.</p>
+          <p>Además, este video cuento incorpora una versión accesible para personas con discapacidad visual, integrando una narración descriptiva que permite disfrutar de la historia a través de sonidos, voces y música cuidadosamente seleccionados.</p>
+        </div>
+        <video class="imagen-principal" controls playsinline>
+          <source src="imagenes/Videocuento0.mp4" type="video/mp4">
+          Tu navegador no soporta la etiqueta de video.
+        </video>
+      </div>
+
+      <div class="bloque">
+        <div class="imagen-principal">
+          <iframe src="https://www.calameo.com/read/007411505b1da4cbace22" class="calameo-visor" allowfullscreen></iframe>
+        </div>
+        <div class="texto">
+          <h1>Libro Digital</h1>
+          <p>Si prefieres disfrutar la historia a tu ritmo, aquí encontrarás el acceso al libro digital con el texto completo.</p>
+          <p>Invitamos a docentes, estudiantes y a cualquier persona a explorar este libro como punto de partida para reflexiones, diálogos y proyectos que celebren la identidad y diversidad cultural de nuestra ciudad.</p>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Estudiante Autor:</h1>
+          <h1>Jonathan Paladines</h1>
+          <p>Con 21 años y una mirada creativa hacia la educación, Jonathan Paladines se forma en el campo de la pedagogía de las ciencias experimentales informática.</p>
+        </div>
+        <img src="imagenes/yoo.jpg" alt="Jonathan Paladines" class="imagen-principal" />
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/profe.jpg" alt="Profesora Maria Morales" class="imagen-principal" />
+        <div class="texto">
+          <h1>Profesora Informante Clave:</h1>
+          <h1>Maria Morales</h1>
+          <p>Con una formación de posgrado y una vocación por el arte y la cultura, la magíster María Libia Morales Feijoo se desempeña como docente en el área de Educación Cultural y Artística.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CUENTO 2 ==================== -->
+    <section id="cuento1" class="seccion">
+
+      <a href="#biblioteca" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver a Biblioteca</a>
+
+      <div class="primeraparte">
+        <h1>Cuento 2: Virgen del Rosario</h1>
+        <p>La organización de la leyenda se dividirá en varios apartados fundamentales para la mejor comprensión de la misma:</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Video Leyenda</h1>
+          <p>Sumérgete en el fervor de nuestra historia a través de un formato audiovisual envolvente. Este video cuento entrelaza la devoción mariana, la música sacra y elementos visuales para recrear los milagros que marcaron el alma lojana. Además, incorpora una versión accesible para personas con discapacidad visual.</p>
+        </div>
+        <video class="imagen-principal" controls playsinline>
+          <source src="imagenes/Video1.mp4" type="video/mp4">
+          Tu navegador no soporta la etiqueta de video.
+        </video>
+      </div>
+
+      <div class="bloque">
+        <div class="imagen-principal">
+          <iframe src="https://www.calameo.com/read/007970234f1510bd64ef6" class="calameo-visor" allowfullscreen></iframe>
+        </div>
+        <div class="texto">
+          <h1>Libro Digital</h1>
+          <p>Si prefieres disfrutar la historia a tu ritmo, aquí encontrarás el acceso al libro digital con el texto completo.</p>
+          <p>Invitamos a docentes, estudiantes y a cualquier persona a explorar este libro como punto de partida para reflexiones, diálogos y proyectos que celebren la identidad y diversidad cultural.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CUENTO 3 ==================== -->
+    <section id="cuento2" class="seccion">
+
+      <a href="#biblioteca" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver a Biblioteca</a>
+
+      <div class="primeraparte">
+        <h1>Cuento 3: El Caballero y las Espuelas de Oro</h1>
+        <p>La organización de la leyenda se dividirá en varios apartados fundamentales para la mejor comprensión de la misma:</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Video Leyenda</h1>
+          <p>Déjate atrapar por el misterio de la noche colonial a través de un formato audiovisual envolvente. Este video cuento combina una atmósfera de suspenso, música de época y elementos visuales sombríos para revivir el andar de aquel vanidoso jinete. Además, incorpora una versión accesible para personas con discapacidad visual.</p>
+        </div>
+        <video class="imagen-principal" controls playsinline>
+          <source src="imagenes/Video2.mp4" type="video/mp4">
+          Tu navegador no soporta la etiqueta de video.
+        </video>
+      </div>
+
+      <div class="bloque">
+        <div class="imagen-principal">
+          <iframe src="https://heyzine.com/flip-book/3090a022fc.html#page/1" class="calameo-visor" allowfullscreen></iframe>
+        </div>
+        <div class="texto">
+          <h1>Libro Digital</h1>
+          <p>Si prefieres disfrutar la historia a tu ritmo, aquí encontrarás el acceso al libro digital con el texto completo.</p>
+          <p>Invitamos a docentes, estudiantes y a cualquier persona a explorar este libro como punto de partida para reflexiones, diálogos y proyectos que celebren la identidad y diversidad cultural.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CUENTO 4 ==================== -->
+    <section id="cuento3" class="seccion">
+
+      <a href="#biblioteca" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver a Biblioteca</a>
+
+      <div class="primeraparte">
+        <h1>Cuento 4: El Camino de los Ahorcados</h1>
+        <p>La organización de la leyenda se dividirá en varios apartados fundamentales para la mejor comprensión de la misma:</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Video Leyenda</h1>
+          <p>Siente el eco de las almas en pena a través de un formato audiovisual envolvente. Este video cuento fusiona una narrativa dramática, sonidos ambientales lúgubres y potentes elementos visuales para revivir la loma del terror. Además, incorpora una versión accesible para personas con discapacidad visual.</p>
+        </div>
+        <video class="imagen-principal" controls playsinline>
+          <source src="imagenes/Video3.mp4" type="video/mp4">
+          Tu navegador no soporta la etiqueta de video.
+        </video>
+      </div>
+
+      <div class="bloque">
+        <div class="imagen-principal">
+          <iframe src="https://heyzine.com/flip-book/192a4e25a1.html#page/1" class="calameo-visor" allowfullscreen></iframe>
+        </div>
+        <div class="texto">
+          <h1>Libro Digital</h1>
+          <p>Si prefieres disfrutar la historia a tu ritmo, aquí encontrarás el acceso al libro digital con el texto completo.</p>
+          <p>Invitamos a docentes, estudiantes y a cualquier persona a explorar este libro como punto de partida para reflexiones, diálogos y proyectos que celebren la identidad y diversidad cultural.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECCIÓN ACTORES ==================== -->
+    <section id="actores" class="seccion">
+
+      <div class="primeraparte">
+        <h1>Actores Principales</h1>
+        <p>Los actores principales se denominan las personas que participaron para la creación de todo el proyecto de vinculación con la sociedad.</p>
+      </div>
+
+      <div class="bloque">
+        <div class="texto">
+          <h1>Estudiante: Jonathan Paladines</h1>
+          <p>Con 21 años y una mirada creativa hacia la educación, Jonathan Paladines se forma en el campo de la pedagogía de las ciencias experimentales informática. Busca llevar el conocimiento digital al aula de manera distinta, rompiendo esquemas tradicionales.</p>
+        </div>
+        <img src="imagenes/yo.jpg" alt="Jonathan Paladines" class="imagen-principal" />
+      </div>
+
+      <div class="bloque">
+        <img src="imagenes/profe.jpg" alt="Profesora Maria Morales" class="imagen-principal" />
+        <div class="texto">
+          <h1>Profesora: Maria Morales</h1>
+          <p>Con una formación de posgrado y una vocación por el arte y la cultura, la magíster María Libia Morales Feijoo se desempeña como docente en el área de Educación Cultural y Artística en la Unidad Educativa 8 de Noviembre.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </div><!-- fin content-sections -->
+
+  <!-- ==================== SECCIÓN JUEGOS ==================== -->
+  <section id="juegos" class="seccion">
+
+    <div class="primeraparte">
+      <h1>Juegos</h1>
+      <p>Pon a prueba tu conocimiento sobre los cuentos de nuestra comunidad</p>
+    </div>
+
+    <div id="menu-juegos" class="contenedor-cuentos">
+
+      <div class="tarjeta-cuento tarjeta-principal">
+        <img src="imagenes/juego1.png" alt="Quiz Los Gagones" class="miniatura-cuento">
+        <div class="tarjeta-info">
+          <h2>🎯 Juego 1 - Cuento 1</h2>
+          <h2>Quiz - Los Gagones</h2>
+          <p>Responde 8 preguntas sobre la leyenda de los Guardianes del Matrimonio</p>
+          <button class="btn-cuento" onclick="abrirJuego('juego1')">Jugar ›</button>
+        </div>
+      </div>
+
+      <div class="tarjeta-cuento tarjeta-principal">
+        <img src="imagenes/juego2.png" alt="Ordena la Historia" class="miniatura-cuento">
+        <div class="tarjeta-info">
+          <h2>📜 Juego 2 - Cuento 1</h2>
+          <h2>Ordena la Historia</h2>
+          <p>Reconstruye los eventos de la leyenda en el orden correcto</p>
+          <button class="btn-cuento" onclick="abrirJuego('juego2')">Jugar ›</button>
+        </div>
+      </div>
+
+      <div class="tarjeta-cuento tarjeta-principal">
+        <img src="imagenes/juego3.png" alt="Virgen de la Memoria" class="miniatura-cuento">
+        <div class="tarjeta-info">
+          <h2>💾 Juego 3 - Cuento 2</h2>
+          <h2>Virgen de la Memoria</h2>
+          <p>Descubre la historia de la Virgen de la Memoria y su impacto en la comunidad</p>
+          <button class="btn-cuento" onclick="abrirJuego('juego3')">Jugar ›</button>
+        </div>
+      </div>
+
+      <div class="tarjeta-cuento tarjeta-principal">
+        <img src="imagenes/juego4.png" alt="El Caballero" class="miniatura-cuento">
+        <div class="tarjeta-info">
+          <h2>🕹️ Juego 4 - Cuento 3</h2>
+          <h2>El Caballero y las espuelas de oro</h2>
+          <p>Descubre la historia del Caballero y sus espuelas de oro</p>
+          <button class="btn-cuento" onclick="abrirJuego('juego4')">Jugar ›</button>
+        </div>
+      </div>
+
+      <div class="tarjeta-cuento tarjeta-principal">
+        <img src="imagenes/juego5.png" alt="Caminos del Ahorcado" class="miniatura-cuento">
+        <div class="tarjeta-info">
+          <h2>💡 Juego 5 - Cuento 4</h2>
+          <h2>Caminos del Ahorcado</h2>
+          <p>Descubre la historia de los Caminos del Ahorcado y su impacto en la comunidad</p>
+          <button class="btn-cuento" onclick="abrirJuego('juego5')">Jugar ›</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="zona-juego" style="display:none;">
+      <button class="btn-volver" onclick="cerrarJuego()">
+        <i class="fas fa-arrow-left"></i> Volver a Juegos
+      </button>
+    <iframe id="frame-juego" src="" style="width:100%; height:100vh; border:none; border-radius:15px; margin-top:15px;"></iframe>
+    </div>
+
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+<footer style="background-color:#7fda18; border-radius:20px; color:#000; padding:15px; font-family:Arial,sans-serif; margin-top:10px; text-align:center;">
+<div style="display:inline-flex; justify-content:center; align-items:center; gap:15px; flex-wrap:wrap;">
+      <img src="imagenes/Imagen1 UNL.png" alt="Universidad Nacional de Loja" style="width:130px; height:auto;">
+    <div style="font-size:clamp(11px,2.5vw,14px); line-height:1.8; text-align:center;">
+      <strong>Ciudad Universitaria Guillermo Falconí</strong><br>
+      Loja - Ecuador<br>
+      ☎️ <strong>07 2593550</strong> (Opción 1 - Presencial)<br>
+      ☎️ <strong>07 2593550</strong> (Opción 2 - Distancia)<br>
+      📧 <strong>comunicacion@unl.edu.ec</strong><br>
+      📍 <a href="https://www.openstreetmap.org/?mlat=-4.03364&mlon=-79.20311#map=17/-4.03364/-79.20311"
+        rel="noopener noreferrer" target="_blank" style="color:#1e90ff;">
+        <strong>Ver ubicación en el mapa</strong>
+      </a>
+    </div>
+  </div>
+  <div style="text-align:center; font-size:12px; margin-top:15px; color:#000;">
+    © 2025 Universidad Nacional de Loja. Todos los derechos reservados.
+  </div>
+</footer>
+
+  <!-- Reproductor flotante -->
+  <div id="reproductor-flotante" style="display:none;">
+    <video id="video-flotante" style="width:120px; border-radius:8px;" controls playsinline></video>
+    <div style="display:flex; flex-direction:column; gap:5px;">
+      <span id="titulo-flotante">▶ Cuento Principal</span>
+      <button onclick="cerrarFlotante()">✖ Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Botón volver arriba -->
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" id="btn-arriba">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+    // --- Reproductor flotante ---
+    const flotante = document.getElementById('reproductor-flotante');
+    const videoFlotante = document.getElementById('video-flotante');
+    let videoActivo = null;
+    let flotanteActivo = false;
+    let saliendo = false;
+
+    document.addEventListener('play', function(e) {
+      if (e.target.tagName === 'VIDEO' && e.target !== videoFlotante) {
+        videoActivo = e.target;
+      }
+    }, true);
+
+    document.addEventListener('pause', function(e) {
+      if (e.target.tagName === 'VIDEO' && e.target !== videoFlotante && !saliendo) {
+        flotanteActivo = false;
+        flotante.style.display = 'none';
+        videoFlotante.pause();
+      }
+    }, true);
+
+    window.addEventListener('hashchange', () => {
+      if (videoActivo && !videoActivo.paused) {
+        saliendo = true;
+        videoFlotante.src = videoActivo.currentSrc;
+        videoFlotante.currentTime = videoActivo.currentTime;
+        videoActivo.pause();
+        videoFlotante.play();
+        flotante.style.display = 'flex';
+        flotanteActivo = true;
+        setTimeout(() => { saliendo = false; }, 300);
+      } else if (flotanteActivo) {
+        flotante.style.display = 'flex';
+      }
+    });
+
+    function cerrarFlotante() {
+      videoFlotante.pause();
+      videoFlotante.src = '';
+      if (videoActivo) {
+        videoActivo.pause();
+        videoActivo.currentTime = 0;
+      }
+      videoActivo = null;
+      flotanteActivo = false;
+      flotante.style.display = 'none';
+    }
+  </script>
+
+  <script>
+    // --- Juegos ---
+    function abrirJuego(juego) {
+      const rutas = {
+        'juego1': 'juego1-gagones-quiz.html',
+        'juego2': 'juego2-gagones-ordenar.html',
+        'juego3': 'juego3-virgen-memoria.html',
+        'juego4': 'juego4-caballero-salon.html',
+        'juego5': 'juego5-camino-ahorcados.html'
+      };
+      document.getElementById('menu-juegos').style.display = 'none';
+      document.getElementById('zona-juego').style.display = 'block';
+      document.getElementById('frame-juego').src = rutas[juego];
+      document.querySelector('#juegos .primeraparte').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cerrarJuego() {
+      document.getElementById('zona-juego').style.display = 'none';
+      document.getElementById('menu-juegos').style.display = 'grid';
+      document.getElementById('frame-juego').src = '';
+      document.querySelector('#juegos .primeraparte').style.display = 'block';
+    }
+  </script>
+
+<script>
+function verInicio() {
+  const bv = document.getElementById('pantalla-bienvenida');
+  bv.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  bv.style.opacity = '0';
+  bv.style.transform = 'scale(0.97)';
+  setTimeout(() => {
+    bv.style.display = 'none';
+    document.getElementById('contenido-inicio').style.display = 'block';
+  }, 600);
+}
+
+document.querySelector('a[href="#inicio"]').addEventListener('click', function() {
+  setTimeout(() => {
+    const bv = document.getElementById('pantalla-bienvenida');
+    const ci = document.getElementById('contenido-inicio');
+    if (bv && bv.style.display !== 'none') {
+      bv.style.display = 'none';
+    }
+    if (ci) ci.style.display = 'block';
+  }, 100);
+});
+
+// Partículas
+(function() {
+  const canvas = document.getElementById('canvas-particulas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particulas = [];
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = canvas.width = rect.width;
+    H = canvas.height = rect.height;
+  }
+
+  function crearParticula() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: -Math.random() * 0.6 - 0.2,
+      alpha: Math.random() * 0.6 + 0.2,
+      color: Math.random() < 0.6 ? '#7fda18' : '#ffffff'
+    };
+  }
+
+  function init() {
+    resize();
+    particulas = Array.from({ length: 80 }, crearParticula);
+  }
+
+  function loop() {
+    if (!document.getElementById('pantalla-bienvenida') ||
+        document.getElementById('pantalla-bienvenida').style.display === 'none') return;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of particulas) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      p.alpha -= 0.003;
+      if (p.y < 0 || p.alpha <= 0) Object.assign(p, crearParticula(), { y: H });
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  loop();
+})();
+</script>
+
+<!-- Cursor personalizado -->
+<div id="cursor"></div>
+<div id="cursor-anillo"></div>
+
+<!-- Barra de progreso de scroll -->
+<div id="scroll-progress"></div>
+
+<script>
+  // Cursor personalizado
+  const cur = document.getElementById('cursor');
+  const anillo = document.getElementById('cursor-anillo');
+
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      anillo.style.left = e.clientX + 'px';
+      anillo.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  document.querySelectorAll('a, button, .tarjeta-cuento, .bv-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cur.classList.add('agrandado');
+      anillo.classList.add('agrandado');
+    });
+    el.addEventListener('mouseleave', () => {
+      cur.classList.remove('agrandado');
+      anillo.classList.remove('agrandado');
+    });
+  });
+
+  // Barra de progreso scroll
+  const barra = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    barra.style.width = pct + '%';
+  });
+
+  // Partículas al hacer clic
+  document.addEventListener('click', e => {
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement('div');
+      p.style.cssText = `
+        position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+        width:6px; height:6px; border-radius:50%;
+        background:${Math.random()<0.5?'#7fda18':'#dd1919'};
+        pointer-events:none; z-index:99999;
+        transform:translate(-50%,-50%);
+        transition: all 0.6s ease;
+      `;
+      document.body.appendChild(p);
+      const ang = (i / 8) * Math.PI * 2;
+      const dist = 40 + Math.random() * 40;
+      setTimeout(() => {
+        p.style.left = (e.clientX + Math.cos(ang) * dist) + 'px';
+        p.style.top = (e.clientY + Math.sin(ang) * dist) + 'px';
+        p.style.opacity = '0';
+        p.style.width = '3px';
+        p.style.height = '3px';
+      }, 10);
+      setTimeout(() => p.remove(), 700);
+    }
+  });
+
+  // Animación de entrada para elementos visibles (Intersection Observer)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.bloque, .primeraparte, .tarjeta-cuento').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
