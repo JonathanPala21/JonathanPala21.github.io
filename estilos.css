@@ -1593,3 +1593,202 @@ h1, h2 {
   width: 0%;
   transition: width 0.1s linear;
 }
+
+/* =====================================================================
+   MODO OSCURO
+   ===================================================================== */
+body.dark-mode {
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+}
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode p { color: #e0e0e0; }
+body.dark-mode .header-info { background-color: #1a1a1a; }
+body.dark-mode .menu { background-color: #1f3a00; }
+body.dark-mode .barra-superior { background-color: #b00000; }
+body.dark-mode .primeraparte,
+body.dark-mode .bloque { background: rgba(255,255,255,0.04); color: #e0e0e0; }
+body.dark-mode .tarjeta-cuento { background: #1a1a1a; }
+body.dark-mode .resultados-busqueda { background: #1a1a1a; }
+body.dark-mode .resultado-item { color: #e0e0e0; border-color: #333; }
+body.dark-mode footer { background-color: #1f3a00; }
+body.dark-mode .audio-player { background: rgba(255,255,255,0.05); }
+body.dark-mode #pantalla-bienvenida { background: linear-gradient(135deg,#000 0%,#0a1a00 60%,#000 100%); }
+body.dark-mode .seccion { border-color: #222; }
+
+#dark-toggle {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 25px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: black;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+  position: relative; /* <- ESTO ES MUY IMPORTANTE */
+}
+#dark-toggle:hover { background: rgba(0,0,0,0.15); }
+body.dark-mode #dark-toggle { color: #e0e0e0; background: rgba(255,255,255,0.1); }
+
+/* =====================================================================
+   BOTÓN COMPARTIR
+   ===================================================================== */
+#btn-compartir {
+  position: fixed;
+  bottom: 72px;
+  right: 18px;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 9997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+#btn-compartir:hover { background-color: #128C7E; transform: scale(1.1); }
+
+#modal-compartir {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99996;
+  align-items: center;
+  justify-content: center;
+}
+#modal-compartir.abierto { display: flex; }
+.compartir-box {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  max-width: 340px;
+  width: 90%;
+  animation: subir 0.3s ease;
+}
+body.dark-mode .compartir-box { background: #1a1a1a; color: #e0e0e0; }
+.compartir-box h3 { margin-bottom: 18px; font-size: 1.1rem; }
+.redes-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 15px; }
+.red-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 16px; border-radius: 25px;
+  border: none; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+  transition: transform 0.2s ease, opacity 0.2s;
+  color: white;
+}
+.red-btn:hover { transform: scale(1.05); opacity: 0.9; }
+.btn-wa  { background: #25D366; }
+.btn-fb  { background: #1877F2; }
+.btn-tw  { background: #1DA1F2; }
+.btn-cp  { background: #7fda18; color: #000; }
+.cerrar-modal { background: none; border: 1px solid #ccc; border-radius: 20px; padding: 7px 20px; cursor: pointer; font-size: 0.85rem; }
+body.dark-mode .cerrar-modal { border-color: #555; color: #e0e0e0; }
+
+/* =====================================================================
+   FONDOS ANIMADOS EN SECCIONES
+   ===================================================================== */
+.seccion {
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(127,218,24,0.04) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(221,25,25,0.03) 0%, transparent 50%);
+  background-attachment: local;
+}
+@keyframes fondoPulso {
+  0%,100% { background-size: 100% 100%; }
+  50% { background-size: 120% 120%; }
+}
+.seccion:target {
+  animation: fadeInSection 0.6s ease forwards, fondoPulso 8s ease infinite;
+}
+
+/* =====================================================================
+   TOOLTIPS
+   ===================================================================== */
+[data-tooltip] { position: relative; cursor: help; }
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 6px 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 9990;
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.4;
+}
+[data-tooltip]::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #222;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 9990;
+}
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+body.dark-mode [data-tooltip]::before { background: #e0e0e0; color: #000; }
+body.dark-mode [data-tooltip]::after { border-top-color: #e0e0e0; }
+
+/* =====================================================================
+   SISTEMA DE PUNTOS / RANKING
+   ===================================================================== */
+#panel-puntos {
+  background: white;
+  border-radius: 15px;
+  padding: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  margin: 20px 0;
+  text-align: center;
+}
+body.dark-mode #panel-puntos { background: #1a1a1a; }
+.puntos-total {
+  font-size: 2.5rem; font-weight: 900;
+  color: #7fda18;
+}
+.puntos-label { font-size: 0.85rem; color: #666; margin-bottom: 15px; }
+body.dark-mode .puntos-label { color: #aaa; }
+.ranking-lista { list-style: none; text-align: left; margin-top: 12px; }
+.ranking-lista li {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+  margin-bottom: 6px; font-size: 0.88rem;
+  background: #f4f4f6;
+  transition: background 0.2s;
+}
+body.dark-mode .ranking-lista li { background: #222; color: #e0e0e0; }
+.ranking-lista li .medalla { font-size: 1.2rem; min-width: 24px; text-align: center; }
+.ranking-lista li .rk-puntos { margin-left: auto; font-weight: bold; color: #7fda18; }
+.barra-juego {
+  height: 6px; background: #e0e0e0; border-radius: 3px;
+  flex: 1; overflow: hidden;
+}
+.barra-juego-fill { height: 100%; background: #7fda18; border-radius: 3px; transition: width 0.6s ease; }
+body.dark-mode .barra-juego { background: #333; }
