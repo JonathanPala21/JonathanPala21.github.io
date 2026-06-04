@@ -100,7 +100,8 @@ function cerrarBusqueda() {
 
 <body>
 
-
+<div id="cursor"></div>
+<div id="cursor-anillo"></div>
 
   
   <!-- Barra superior -->
@@ -157,6 +158,10 @@ function cerrarBusqueda() {
         spellcheck="false">
       <div class="resultados-busqueda" id="resultados-busqueda"></div>
     </div>
+      <!-- Modo oscuro -->
+    <button id="dark-toggle" onclick="toggleDark()" data-tooltip="Cambiar modo claro/oscuro">
+      <i class="fas fa-moon"></i> <span id="dark-texto">Oscuro</span>
+    </button>
   </nav>
 
   <!-- Contenedor de Secciones -->
@@ -249,6 +254,7 @@ function cerrarBusqueda() {
         <img src="imagenes/imagen de turismo.jpg" alt="Turismo en Piñas" class="imagen-principal" />
       </div>
 
+
       <div class="bloque">
         <img src="imagenes/gastronomia.png" alt="Gastronomía de Piñas" class="imagen-principal" />
         <div class="texto">
@@ -279,6 +285,8 @@ function cerrarBusqueda() {
         <h1>Conoce el Colegio de Bachillerato "8 de noviembre"</h1>
         <p>El Colegio de Bachillerato 8 de Noviembre en Piñas, El Oro, es una institución educativa con más de 60 años de trayectoria, comprometida con la formación integral de la juventud.</p>
       </div>
+
+
 
       <div class="bloque">
         <div class="texto">
@@ -584,6 +592,7 @@ function cerrarBusqueda() {
   <section id="juegos" class="seccion">
 
     <div class="primeraparte">
+    
       <h1>Juegos</h1>
       <p>Pon a prueba tu conocimiento sobre los cuentos de nuestra comunidad</p>
     </div>
@@ -638,10 +647,15 @@ function cerrarBusqueda() {
           <p>Descubre la historia de los Caminos del Ahorcado y su impacto en la comunidad</p>
           <button class="btn-cuento" onclick="abrirJuego('juego5')">Jugar ›</button>
         </div>
+        
       </div>
 
     </div>
-
+  <div id="panel-puntos">
+  <div class="puntos-total" id="puntos-display">0</div>
+  <div class="puntos-label">puntos acumulados en los 5 juegos</div>
+  <ul class="ranking-lista" id="ranking-lista"></ul>
+</div>
     <div id="zona-juego" style="display:none;">
       <button class="btn-volver" onclick="cerrarJuego()">
         <i class="fas fa-arrow-left"></i> Volver a Juegos
@@ -650,6 +664,34 @@ function cerrarBusqueda() {
     </div>
 
   </section>
+
+
+<!-- Botón compartir flotante -->
+<button id="btn-compartir" onclick="abrirCompartir()" data-tooltip="Compartir esta página" aria-label="Compartir">
+  <i class="fas fa-share-alt"></i>
+</button>
+
+<!-- Modal compartir -->
+<div id="modal-compartir" role="dialog" aria-modal="true" aria-label="Compartir página">
+  <div class="compartir-box">
+    <h3>Compartir esta página</h3>
+    <div class="redes-btns">
+      <button class="red-btn btn-wa" onclick="compartirEn('whatsapp')">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </button>
+      <button class="red-btn btn-fb" onclick="compartirEn('facebook')">
+        <i class="fab fa-facebook"></i> Facebook
+      </button>
+      <button class="red-btn btn-tw" onclick="compartirEn('twitter')">
+        <i class="fab fa-twitter"></i> Twitter/X
+      </button>
+      <button class="red-btn btn-cp" onclick="compartirEn('copiar')">
+        <i class="fas fa-link"></i> Copiar enlace
+      </button>
+    </div>
+    <button class="cerrar-modal" onclick="cerrarCompartir()">Cerrar</button>
+  </div>
+</div>
 
   <!-- ==================== FOOTER ==================== -->
 <footer style="background-color:#7fda18; border-radius:20px; color:#000; padding:15px; font-family:Arial,sans-serif; margin-top:10px; text-align:center;">
@@ -688,6 +730,7 @@ function cerrarBusqueda() {
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
+    
     // --- Reproductor flotante ---
     const flotante = document.getElementById('reproductor-flotante');
     const videoFlotante = document.getElementById('video-flotante');
@@ -923,6 +966,93 @@ document.querySelector('a[href="#inicio"]').addEventListener('click', function()
     observer.observe(el);
   });
 </script>
+<script>
+/* =====================================================================
+   MODO OSCURO
+   ===================================================================== */
+function toggleDark() {
+  const dark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('darkMode', dark);
+  document.getElementById('dark-texto').textContent = dark ? 'Claro' : 'Oscuro';
+  document.querySelector('#dark-toggle i').className = dark ? 'fas fa-sun' : 'fas fa-moon';
+}
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark-mode');
+  document.getElementById('dark-texto').textContent = 'Claro';
+  document.querySelector('#dark-toggle i').className = 'fas fa-sun';
+}
 
+/* =====================================================================
+   COMPARTIR
+   ===================================================================== */
+function abrirCompartir() {
+  document.getElementById('modal-compartir').classList.add('abierto');
+}
+function cerrarCompartir() {
+  document.getElementById('modal-compartir').classList.remove('abierto');
+}
+document.getElementById('modal-compartir').addEventListener('click', function(e) {
+  if (e.target === this) cerrarCompartir();
+});
+function compartirEn(red) {
+  const url = encodeURIComponent(window.location.href);
+  const texto = encodeURIComponent('🌿 Cuentos y tradiciones de Piñas, El Oro — ¡Conoce nuestra cultura!');
+  const redes = {
+    whatsapp: `https://wa.me/?text=${texto}%20${url}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    twitter: `https://twitter.com/intent/tweet?text=${texto}&url=${url}`
+  };
+  if (red === 'copiar') {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('¡Enlace copiado al portapapeles!');
+    });
+    return;
+  }
+  window.open(redes[red], '_blank', 'noopener');
+}
+
+/* =====================================================================
+   SISTEMA DE PUNTOS / RANKING
+   ===================================================================== */
+const juegoNombres = [
+  'Quiz — Los Gagones',
+  'Ordena la Historia',
+  'Virgen de la Memoria',
+  'El Caballero',
+  'Camino de los Ahorcados'
+];
+function cargarPuntos() {
+  const datos = JSON.parse(localStorage.getItem('puntos_juegos') || '{}');
+  const lista = juegoNombres.map((n, i) => ({
+    nombre: n,
+    pts: datos[`juego${i+1}`] || 0
+  })).sort((a, b) => b.pts - a.pts);
+  const total = lista.reduce((s, j) => s + j.pts, 0);
+  document.getElementById('puntos-display').textContent = total;
+  const medallas = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+  const maxPts = Math.max(...lista.map(j => j.pts), 1);
+  document.getElementById('ranking-lista').innerHTML = lista.map((j, i) => `
+    <li>
+      <span class="medalla">${medallas[i]}</span>
+      <span>${j.nombre}</span>
+      <div class="barra-juego">
+        <div class="barra-juego-fill" style="width:${(j.pts/maxPts)*100}%"></div>
+      </div>
+      <span class="rk-puntos">${j.pts} pts</span>
+    </li>
+  `).join('');
+}
+cargarPuntos();
+// Escuchar mensajes de puntos desde los iframes de juego
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.tipo === 'puntos') {
+    const datos = JSON.parse(localStorage.getItem('puntos_juegos') || '{}');
+    datos[e.data.juego] = Math.max(datos[e.data.juego] || 0, e.data.puntos);
+    localStorage.setItem('puntos_juegos', JSON.stringify(datos));
+    cargarPuntos();
+  }
+});
+
+</script>
 </body>
 </html>
